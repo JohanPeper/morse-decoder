@@ -38,7 +38,6 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    expr = expr.split('**********');
 
     function dotDash(v) {
         let cipher = '',
@@ -55,16 +54,18 @@ function decode(expr) {
         return letter;
     }
 
-    let letter = [];
-    for (let i = 0; i < expr.length; i++) {
-        for (let j = 0; j < expr[i].length + 1; j++) {
-            letter.push(dotDash(expr[i].substring(0, 10)))
-            expr[i] = expr[i].substring(10, expr[i].length);
+    let v = expr;
+    let result = '';
+    for (let i = 0; i < v.length; i += 10) {
+
+
+        if (v.substring(i, i + 10) == '**********') {
+            result += " ";
         }
-        expr[i] = letter.join('');
-        letter = [];
+        else { result += dotDash(v.substring(i, i + 10)) }
     }
-    return expr.join(' ');
+    return result;
+
 
 }
 
