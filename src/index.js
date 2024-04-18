@@ -38,34 +38,26 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
+    let ans = '';
+    let letter = '';
 
-    function dotDash(v) {
-        let cipher = '',
-            letter = '';
-        for (let i = 0; i < v.length + 2; i += 2) {
-            if (v.substring(i, i + 2) == '10') {
-                cipher += '.';
-            }
-            else if (v.substring(i, i + 2) == '11') {
-                cipher += '-';
+    for (let i = 10; i <= expr.length; i += 10) {
+        if (expr.slice(i - 10, i) == '**********') {
+            ans += " ";
+            continue;
+        }
+        for (let j = 2; j <= expr.slice(i - 10, i).length; j += 2) {
+            if (expr.slice(i - 10, i).slice(j - 2, j) === '10') {
+                letter += '.';
+            } else if (expr.slice(i - 10, i).slice(j - 2, j) === '11') {
+                letter += '-';
             }
         }
-        letter = MORSE_TABLE[cipher];
-        return letter;
+        ans += MORSE_TABLE[letter];
+        letter = '';
+
     }
-
-    let v = expr;
-    let result = '';
-    for (let i = 0; i < v.length; i += 10) {
-
-
-        if (v.substring(i, i + 10) == '**********') {
-            result += " ";
-        }
-        else { result += dotDash(v.substring(i, i + 10)) }
-    }
-    return result;
-
+    return ans;
 
 }
 
